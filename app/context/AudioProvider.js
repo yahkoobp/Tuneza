@@ -17,7 +17,9 @@ export class AudioProvider extends Component {
             dataProvider: new DataProvider((r1,r2) => r1!==r2),
             playbackObj: null,
             soundObj: null,
-            currentAudio: {}
+            currentAudio: {},
+            isPlaying: false,
+            currentAudioIndex: null
         }
     }
 
@@ -86,7 +88,7 @@ export class AudioProvider extends Component {
     }
 
   render() {
-    const {audioFiles,dataProvider,permissionError, playbackObj, soundObj, currentAudio} = this.state
+    const {audioFiles,dataProvider,permissionError, playbackObj, soundObj, currentAudio, isPlaying, currentAudioIndex} = this.state
     if(permissionError) return <View style={{
         flex:1,
         justifyContent:'center',
@@ -99,7 +101,7 @@ export class AudioProvider extends Component {
 
         }}> You should give permission to use this app</Text>
     </View>
-    return <AudioContext.Provider  value={{audioFiles, dataProvider, playbackObj, soundObj, currentAudio, updateState: this.updateState}}>
+    return <AudioContext.Provider  value={{audioFiles, dataProvider, playbackObj, soundObj, currentAudio, isPlaying, currentAudioIndex, updateState: this.updateState}}>
         {this.props.children}
     </AudioContext.Provider>
   }
