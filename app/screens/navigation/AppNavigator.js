@@ -10,7 +10,7 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator()
 
 const AppNavigator = () => {
-  return <Tab.Navigator>
+  return  <Tab.Navigator>
     <Tab.Screen name='AudioList' component={AudioList} options={{
         tabBarIcon: (color, size) =>{
             return <Ionicons name="headset" size={24} color={color} />
@@ -27,6 +27,7 @@ const AppNavigator = () => {
         }
     }}/>
   </Tab.Navigator>
+  
 }
 
 
