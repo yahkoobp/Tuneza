@@ -4,6 +4,7 @@ import  Screen from '../components/Screen'
 import color from '../misc/color';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
+import PlayerButton from '../components/PlayerButton';
 
 const {width} = Dimensions.get('window')
 
@@ -25,6 +26,13 @@ const Player = () => {
   minimumTrackTintColor={color.FONT_MEDIUM}
   maximumTrackTintColor={color.ACTIVE_BG}
 />
+    <View style={styles.audioControllers}>
+      <PlayerButton iconType='PREV'/>
+      <PlayerButton
+      onPress={() => console.log('playing')}
+       style={{marginHorizontal: 25}} iconType='PLAY'/>
+      <PlayerButton iconType='NEXT'/>
+    </View>
     </View>
   </Screen>
   );
@@ -32,6 +40,13 @@ const Player = () => {
 
 
 const styles = StyleSheet.create({
+  audioControllers:{
+    width,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 20
+  },
     container:{
         flex:1,
     },
