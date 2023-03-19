@@ -1,28 +1,50 @@
 import { StyleSheet, Text, View, Dimensions } from 'react-native'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import  Screen from '../components/Screen'
 import color from '../misc/color';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import PlayerButton from '../components/PlayerButton';
+import {AudioContext} from '../context/AudioProvider';
 
 const {width} = Dimensions.get('window')
 
 const Player = () => {
+  const context = useContext(AudioContext);
+  const {playbackPosition,
+    playbackDuration,} = context;
+
+  const calculateSeekBar = () => {
+    if(playbackPosition !== null && playbackDuration !== null){
+      return playbackPosition / playbackDuration;
+    }
+    return 0
+  }
+
+  useEffect(() => {
+    context.loadPreviousAudio();
+    }, []);
+
+  if (!context.currentAudio) return null;
+
   return (
   <Screen>
     <View style={styles.container}>
-      <Text style={styles.audioCount}>1 / 99</Text>
+      <Text style={styles.audioCount}>{`${context.currentAudioIndex+1} / ${context.totalAudioCount}`}</Text>
       <View style={styles.midBannerContainer}>
-        <MaterialCommunityIcons name="music-circle" size={300} color="black" />
+        <MaterialCommunityIcons 
+        name="music-circle" 
+        size={300} 
+        color={context.isPlaying? color.ACTIVE_BG : color.FONT_MEDIUM} />
       </View>
       <View style={styles.audioPlayerContainer}>
-        <Text numberOfLines={1} style={styles.audioTitle}>Audio File Name</Text>
+        <Text numberOfLines={1} style={styles.audioTitle}>{context.currentAudio.filename}</Text>
       </View>
       <Slider
   style={{width: width, height: 40}}
   minimumValue={0}
   maximumValue={1}
+  value={calculateSeekBar()}
   minimumTrackTintColor={color.FONT_MEDIUM}
   maximumTrackTintColor={color.ACTIVE_BG}
 />
@@ -30,7 +52,8 @@ const Player = () => {
       <PlayerButton iconType='PREV'/>
       <PlayerButton
       onPress={() => console.log('playing')}
-       style={{marginHorizontal: 25}} iconType='PLAY'/>
+       style={{marginHorizontal: 25}} 
+       iconType={context.isPlaying? 'PLAY' : 'PAUSE'}/>
       <PlayerButton iconType='NEXT'/>
     </View>
     </View>

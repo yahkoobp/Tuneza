@@ -2,6 +2,7 @@ import { Text, View ,Alert ,StyleSheet} from 'react-native'
 import React, { Component ,createContext} from 'react'
 import * as MediaLibrary from 'expo-media-library'
 import {DataProvider} from 'recyclerlistview'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AudioContext = createContext();
 
@@ -19,8 +20,11 @@ export class AudioProvider extends Component {
             soundObj: null,
             currentAudio: {},
             isPlaying: false,
-            currentAudioIndex: null
-        }
+            currentAudioIndex: null,
+            playbackPosition: null,
+            playbackDuration: null,
+        };
+        this.totalAudioCount = 0
     }
 
     permissionAlert = () =>{
@@ -47,12 +51,32 @@ export class AudioProvider extends Component {
 
       media = await MediaLibrary.getAssetsAsync({
         mediaType:'audio',
-        first:media.totalCount
-      })
+        first:media.totalCount,
+      });
+      this.totalAudioCount = media.totalCount
+    //   console.log(this.totalAudioCount)
 
       this.setState({...this.state,dataProvider: dataProvider.cloneWithRows([...audioFiles, ...media.assets]) , 
         audioFiles:[...audioFiles, ...media.assets],})
     //   console.log(this.state.audioFiles)
+    }
+
+    loadPreviousAudio = async () => {
+        let previousAudio = await AsyncStorage.getItem('previousAudio');
+        let currentAudio;
+        let currentAudioIndex;
+
+        if (previousAudio === null){
+            currentAudio = this.state.audioFiles[0];
+            currentAudioIndex = 0;
+        }
+        else{
+            previousAudio = JSON.parse(previousAudio);
+            currentAudio = previousAudio.audio;
+            currentAudioIndex = previousAudio.index;
+        }
+
+        this.setState({...this.state, currentAudio, currentAudioIndex});
     }
 
     getPermission = async() =>{
@@ -88,7 +112,17 @@ export class AudioProvider extends Component {
     }
 
   render() {
-    const {audioFiles,dataProvider,permissionError, playbackObj, soundObj, currentAudio, isPlaying, currentAudioIndex} = this.state
+    const {
+        audioFiles,
+        dataProvider,
+        permissionError, 
+        playbackObj, 
+        soundObj, 
+        currentAudio, 
+        isPlaying, currentAudioIndex,
+        playbackPosition,
+        playbackDuration,
+        } = this.state
     if(permissionError) return <View style={{
         flex:1,
         justifyContent:'center',
@@ -101,7 +135,19 @@ export class AudioProvider extends Component {
 
         }}> You should give permission to use this app</Text>
     </View>
-    return <AudioContext.Provider  value={{audioFiles, dataProvider, playbackObj, soundObj, currentAudio, isPlaying, currentAudioIndex, updateState: this.updateState}}>
+    return <AudioContext.Provider  value={{audioFiles, 
+    dataProvider, 
+    playbackObj, 
+    soundObj, 
+    currentAudio, 
+    isPlaying, 
+    currentAudioIndex, 
+    totalAudioCount: this.totalAudioCount,
+    playbackPosition,
+    playbackDuration,
+    updateState: this.updateState,
+    loadPreviousAudio: this.loadPreviousAudio,
+    }}>
         {this.props.children}
     </AudioContext.Provider>
   }
