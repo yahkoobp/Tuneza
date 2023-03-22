@@ -144,7 +144,9 @@ export class AudioList extends Component {
             dataProvider={dataProvider} layoutProvider={this.layoutProvider} rowRenderer={this.rowRenderer} extendedState={{isPlaying}}/>
             <OptionModal 
             onPlayPress={()=>console.log('playing audio.....')}
-            onPlayListPress={()=>{console.log('Added to the playlist')}}
+            onPlayListPress={()=> {
+              this.props.navigation.navigate('PlayList');
+            }}
             currentItem={this.currentItem} onClose={() =>{
               this.setState({...this.state, optionModalVisible:false})
             }} visible={this.state.optionModalVisible}/>
