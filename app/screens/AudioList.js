@@ -129,7 +129,7 @@ export class AudioList extends Component {
       duration = {item.duration} 
       onAudioPress = {()=>this.handleAudioPress(item)} 
       onOptionPress={()=>{
-        this.currentItem = item
+        this.currentItem = item;
         this.setState({...this.state , optionModalVisible:true})
       }}/>
     }
@@ -145,6 +145,9 @@ export class AudioList extends Component {
             <OptionModal 
             onPlayPress={()=>console.log('playing audio.....')}
             onPlayListPress={()=> {
+              this.context.updateState(this.context, {
+                addToPlayList: this.currentItem,
+              });
               this.props.navigation.navigate('PlayList');
             }}
             currentItem={this.currentItem} onClose={() =>{
