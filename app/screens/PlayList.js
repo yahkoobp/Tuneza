@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, FlatList, Alert } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import color from '../misc/color'
 import PlayListInputModal from '../components/PlayListInputModal';
@@ -53,14 +53,62 @@ useEffect(() => {
   if(!playList.length){ 
     renderPlayList()
   }
-},[])
+},[]);
+
+const handleBannerPress = async (playList) => { 
+  // update playlist if there is any selected audio
+  if(addToPlayList){
+    const result = await AsyncStorage.getItem('playlist');
+  // we want to check duplicate audio
+
+  let oldList = [];  
+  let updatedList = [];
+  let sameAudio = false;
+
+  if (result !== null) {
+    oldList = JSON.parse(result);
+    
+    updatedList = oldList.filter(list => {
+      if(list.id === playList.id){
+        //check duplicate present or not
+        for (let audio of list.audios){
+          if(audio.id === addToPlayList.id){
+            // alert with some message
+            sameAudio = true;
+            return;
+          }
+        }
+
+        // update the playList.
+        list.audios = [...list.audios, addToPlayList];
+
+      }
+
+      return list;
+
+    })
+  }
+
+  if(sameAudio){
+    Alert.alert('Found same audio', `${addToPlayList.filename} is already inside the list.`)
+    sameAudio = false;
+    return updateState(context, {addToPlayList: null});
+  }
+
+  updateState (context, {addToPlayList: null, playList: [...updatedList]});
+  return AsyncStorage.setItem('playlist', JSON.stringify([...updatedList]));
+  }
+  //if no audio selected then open the list
+
+  console.log('opening list');
+};
   
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
 
         {playList.length? playList.map(item => (
-        <TouchableOpacity key={item.id.toString()} style={styles.playListBanner}>
+        <TouchableOpacity key={item.id.toString()} style={styles.playListBanner} onPress={() => handleBannerPress(item)}>
           <Text>{item.title}</Text>
           <Text style={styles.audioCount}>{item.audios.length > 1 ? `${item.audios.length} Songs` : `${item.audios.length} Song`}</Text>
         </TouchableOpacity>)) : null}
@@ -104,4 +152,4 @@ const styles = StyleSheet.create({
       padding: 5,
     }
 })
-export default PlayList
+export default PlayList 
