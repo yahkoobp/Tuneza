@@ -32,8 +32,8 @@ const convertTime = minutes => {
   };
 
 const renderPlayPauseIcon = isPlaying => {
-  if(isPlaying) return <Entypo name="controller-paus" size={24} color="black" />
-  return <Entypo name="controller-play" size={24} color="black" />
+  if(isPlaying) return <Entypo name="controller-paus" size={24} color="white" />
+  return <Entypo name="controller-play" size={24} color="white" />
 }
 const AudioListItem =({title , duration ,onOptionPress, onAudioPress, isPlaying, activeListItem}) =>{
     return (
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   container :{
     flexDirection:'row',
     alignSelf:'center',
-    width:width -80,
+    width:width -30,
   },
   leftContainer:{
      flexDirection:'row',
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   thumbnail: {
     height: 50,
     flexBasis: 50,
-    backgroundColor: color.FONT_LIGHT,
+    backgroundColor:'teal',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 25,
@@ -95,10 +95,10 @@ const styles = StyleSheet.create({
   thumbnailText: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: color.FONT,
+    color:'white',
   },
   titleContainer: {
-    width: width - 180,
+    width: width - 120,
     paddingLeft: 10,
   },
   title: {

@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import  Screen from '../components/Screen'
 import color from '../misc/color';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons'; 
 import Slider from '@react-native-community/slider';
 import PlayerButton from '../components/PlayerButton';
 import {AudioContext} from '../context/AudioProvider';
@@ -161,12 +162,13 @@ const Player = () => {
         <Text>{context.activePlayList.title}</Text>
         </View>) }
       <Text style={styles.audioCount}>{`${context.currentAudioIndex+1} / ${context.totalAudioCount}`}</Text>
+      <SimpleLineIcons name="options-vertical" size={20} color={color.FONT_MEDIUM} />
       </View>
       <View style={styles.midBannerContainer}>
         <MaterialCommunityIcons 
         name="music-circle" 
         size={300} 
-        color={context.isPlaying? color.ACTIVE_BG : color.FONT_MEDIUM} />
+        color={context.isPlaying? color.ACTIVE_BG : 'teal'} />
       </View>
       <View style={styles.audioPlayerContainer}>
         <Text numberOfLines={1} style={styles.audioTitle}>{context.currentAudio.filename}</Text>
