@@ -10,10 +10,10 @@ const PlayListDetail = props => {
     const context = useContext(AudioContext);
     // const playList = props
     const playList = props?.route?.params
-    console.log(playList)
+    // console.log(playList)
 
-    const playAudio = (audio) =>{
-        selectAudio(audio , context)
+    const playAudio = async (audio) =>{
+       await selectAudio(audio , context , {activePlayList : playList , isPlayListRunning: true})
     }
 
   return (
@@ -27,7 +27,10 @@ const PlayListDetail = props => {
             renderItem = {({item}) => (
             <View style={{marginBottom: 10}}>
             <AudioListItem title={item.filename} 
-            duration={item.duration} onAudioPress = {() => playAudio(item)}/>
+            duration={item.duration}
+            isPlaying = {context.isPlaying}
+            activeListItem = {item.id === context.currentAudio.id}
+             onAudioPress = {() => playAudio(item)}/>
             </View>
             )}
             />
