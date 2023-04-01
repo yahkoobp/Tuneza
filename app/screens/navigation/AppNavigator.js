@@ -1,13 +1,26 @@
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
 import AudioList from '../AudioList'
 import Player from '../Player'
 import PlayList from '../PlayList'
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
+import PlayListDetail from '../PlayListDetail';
 
 const Tab = createBottomTabNavigator()
+const Stack = createStackNavigator()
+
+const PlayListScreen = () =>{
+     return (
+     <Stack.Navigator screenOptions={{headerShown:false}}>
+        <Stack.Screen name='PlayList' component={PlayList}/>
+        <Stack.Screen name='PlayListDetail' component={PlayListDetail} />
+     </Stack.Navigator>
+     )
+}
 
 const AppNavigator = () => {
   return  <Tab.Navigator>
@@ -21,7 +34,7 @@ const AppNavigator = () => {
             return <FontAwesome5 name="compact-disc" size={24} color="black"  />
         }
     }}/>
-    <Tab.Screen name='PlayList' component={PlayList} options={{
+    <Tab.Screen name='PlayList' component={PlayListScreen} options={{
         tabBarIcon: (color, size) =>{
             return <SimpleLineIcons name="playlist" size={24} color="black" />
         }

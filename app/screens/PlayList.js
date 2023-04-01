@@ -4,11 +4,11 @@ import color from '../misc/color'
 import PlayListInputModal from '../components/PlayListInputModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AudioContext } from '../context/AudioProvider';
-import PlayListDetail from '../components/PlayListDetail';
+import PlayListDetail from './PlayListDetail';
 
 let selectedPlayList = {};
 
-const PlayList = () => {
+const PlayList = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [showPlayList, setShowPlayList] = useState(false);
 
@@ -103,14 +103,15 @@ const handleBannerPress = async (playList) => {
   return AsyncStorage.setItem('playlist', JSON.stringify([...updatedList]));
   }
   //if no audio selected then open the list
-
+  
   selectedPlayList = playList;
-  setShowPlayList(true);
+  // setShowPlayList(true);
+  // console.log(playList)
+  navigation.navigate('PlayListDetail' , playList);
 };
   
 
   return (
-    <>
     <ScrollView contentContainerStyle={styles.container}>
 
         {playList.length? playList.map(item => (
@@ -131,9 +132,9 @@ const handleBannerPress = async (playList) => {
         visible={modalVisible} 
         onClose={() => setModalVisible(false)} 
         onSubmit={createPlayList}/>
+    <PlayListDetail visible={showPlayList}  playList={selectedPlayList} onClose={() => setShowPlayList(false)}/>
     </ScrollView>
-    <PlayListDetail visible={showPlayList} playList={selectedPlayList} onClose={() => setShowPlayList(false)}/>
-    </>
+    
   )
 }
 
