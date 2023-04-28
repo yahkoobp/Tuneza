@@ -2,10 +2,16 @@ import { StyleSheet, Text, View , ScrollView ,TouchableOpacity } from 'react-nat
 import React from 'react'
 import color from '../misc/color'
 
-const Genre = () => {
+const Genre = ({navigation}) => {
+
+  const handleBannerPress =()=>{
+
+    navigation.navigate('GenreDetail');
+    
+  }
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <TouchableOpacity style={styles.ListBanner}>
+            <TouchableOpacity style={styles.ListBanner} onPress={handleBannerPress}>
               <Text style={styles.textStyle}>Rock</Text>
               <Text style={styles.audioCount}>5 Songs</Text>
             </TouchableOpacity>

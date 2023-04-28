@@ -5,6 +5,7 @@ import PlayListInputModal from '../components/PlayListInputModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AudioContext } from '../context/AudioProvider';
 import PlayListDetail from './PlayListDetail';
+import { AntDesign } from '@expo/vector-icons'; 
 
 let selectedPlayList = {};
 
@@ -116,8 +117,13 @@ const handleBannerPress = async (playList) => {
 
         {playList.length? playList.map(item => (
         <TouchableOpacity key={item.id.toString()} style={styles.playListBanner} onPress={() => handleBannerPress(item)}>
+          <View>
           <Text>{item.title}</Text>
           <Text style={styles.audioCount}>{item.audios.length > 1 ? `${item.audios.length} Songs` : `${item.audios.length} Song`}</Text>
+          </View>
+          <View>
+          {/* <AntDesign name="delete" size={24} color="black" /> */}
+          </View>
         </TouchableOpacity>)) : null}
 
         {/* <FlatList data={playList} keyExtractor={item => item.id.toString()} 
@@ -143,6 +149,10 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     playListBanner:{
+      display:'flex',
+      flexDirection:'row',
+      alignItems:'center',
+      justifyContent:'space-between',
       padding: 5,
       backgroundColor: 'rgba(204,204,204,0.3)',
       borderRadius: 5,

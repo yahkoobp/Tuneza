@@ -157,9 +157,9 @@ const Player = () => {
     <View style={styles.container}>
       <View style={styles.audioCountContainer} >
        { context.isPlayListRunning && (
-       <View style={{flexDirection:'row'}} >
-        <Text style={{fontWeight:"bold"}}>From PlayList  :</Text>
-        <Text>{context.activePlayList.title}</Text>
+       <View style={{flexDirection:'row',justifyContent:'space-between'}} >
+
+        <Text style={{fontWeight:"bold"}}>{context.activePlayList.title}</Text>
         </View>) }
       <Text style={styles.audioCount}>{`${context.currentAudioIndex+1} / ${context.totalAudioCount}`}</Text>
       <SimpleLineIcons name="options-vertical" size={20} color={color.FONT_MEDIUM} />
@@ -168,7 +168,7 @@ const Player = () => {
         <MaterialCommunityIcons 
         name="music-circle" 
         size={300} 
-        color={context.isPlaying? color.ACTIVE_BG : 'teal'} />
+        color={context.isPlaying? 'teal' : color.ACTIVE_BG} />
       </View>
       <View style={styles.audioPlayerContainer}>
         <Text numberOfLines={1} style={styles.audioTitle}>{context.currentAudio.filename}</Text>

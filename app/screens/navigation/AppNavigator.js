@@ -11,6 +11,7 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons'; 
 import PlayListDetail from '../PlayListDetail';
 import Genre from '../Genre';
+import GenreDetail from '../GenreDetail';
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -21,7 +22,18 @@ const PlayListScreen = () =>{
         <Stack.Screen name='PlayList' component={PlayList}/>
         <Stack.Screen name='PlayListDetail' component={PlayListDetail} />
      </Stack.Navigator>
+     
      )
+}
+
+const GenreScreen = () =>{
+    return (
+    <Stack.Navigator screenOptions={{headerShown:false}}>
+       <Stack.Screen name='genre' component={Genre}/>
+       <Stack.Screen name='genreDetail' component={GenreDetail}/>
+    </Stack.Navigator>
+    
+    )
 }
 
 const AppNavigator = () => {
@@ -42,13 +54,13 @@ const AppNavigator = () => {
         }
     }}/>
 
-    <Tab.Screen name='Genre' component={Genre} options={{
+    <Tab.Screen name='Genre' component={GenreScreen} options={{
         tabBarIcon: (color, size) =>{
             return <Entypo name="folder" size={24} color="black" />
         },
     }}/>
   </Tab.Navigator>
-  
+
 }
 
 

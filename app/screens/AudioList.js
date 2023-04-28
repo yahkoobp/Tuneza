@@ -1,5 +1,5 @@
-import { Text, View ,StyleSheet, ScrollView, Dimensions} from 'react-native'
-import React, { Component } from 'react'
+import { Text, View ,StyleSheet, ScrollView, Dimensions, Alert , ActivityIndicator} from 'react-native'
+import React, { Component ,useState } from 'react'
 import { AudioContext } from '../context/AudioProvider'
 import {RecyclerListView , LayoutProvider} from 'recyclerlistview'
 import AudioListItem from '../components/AudioListItem'
@@ -8,16 +8,25 @@ import OptionModal from '../components/OptionModel'
 import { Audio } from 'expo-av';
 import { play, pause, resume, playNext, selectAudio } from '../misc/audioController';
 import { storeAudioForNextOpening } from '../misc/helper'
+import {firebase} from '../firebase/config'
+import Spinner from 'react-native-loading-spinner-overlay'
+import AppLoader from '../components/AppLoader'
+import PopUp from '../components/PopUp'
 
 
 
 
 export class AudioList extends Component {
 
+
+
   constructor(props) {
     super(props);
     this.state = {
       optionModalVisible: false,
+      popUpVisible:false,
+      audio :null ,
+      uploading :false,
     };
 
     this.currentItem = {};
@@ -38,85 +47,10 @@ export class AudioList extends Component {
      
     });
 
-    // onPlaybackStatusUpdate = async playbackStatus => {
-    //   if (playbackStatus.isLoaded && playbackStatus.isPlaying){
-    //     this.context.updateState(this.context, {
-    //       playbackPosition: playbackStatus.positionMillis,
-    //       playbackDuration: playbackStatus.durationMillis,
-    //     });
-    //   }
-    //   if(playbackStatus.didJustFinish){
-    //     const nextAudioIndex = this.context.currentAudioIndex + 1;
-    //     // there is no next audio to play or current audio is the last one
-    //     if (nextAudioIndex >= this.context.totalAudioCount){
-    //       this.context.playbackObj.unloadAsync();
-    //       this.context.updateState(this.context, {
-    //         soundObj: null,
-    //         currentAudio: this.context.audioFiles[0],
-    //         isPlaying: false,
-    //         currentAudioIndex: 0,
-    //         playbackPosition: null,
-    //         playbackDuration: null,
-    //       });
-    //       return await storeAudioForNextOpening(this.context.audioFiles[0], 0);
-    //     }
-    //     // otherwise select next audio
-    //     const audio = this.context.audioFiles[nextAudioIndex];
-    //     const status = await playNext(this.context.playbackObj, audio.uri)
-    //     this.context.updateState(this.context, {
-    //       soundObj: status,
-    //       currentAudio: audio,
-    //       isPlaying: true,
-    //       currentAudioIndex: nextAudioIndex,
-    //     });
-    //     await storeAudioForNextOpening(audio, nextAudioIndex);
-    //   }
-    // };
-
     handleAudioPress = async audio => {
 
+
       await selectAudio(audio , this.context)
-      // const {soundObj, playbackObj, currentAudio, updateState, audioFiles} = this.context;
-      // //playing audio for the first time
-      // if (soundObj===null){
-      //   const playbackObj = new Audio.Sound()
-      //   const status = await play(playbackObj, audio.uri);
-      //   const index = audioFiles.indexOf(audio)
-      //   updateState(this.context, {
-      //     currentAudio: audio, 
-      //     playbackObj: playbackObj, 
-      //     soundObj: status, 
-      //     isPlaying: true,
-      //     currentAudioIndex: index,
-      //   });
-      //   playbackObj.setOnPlaybackStatusUpdate(this.context.onPlaybackStatusUpdate)
-      //   return storeAudioForNextOpening(audio, index)
-      // }
-
-      // //pause audio
-      // if (soundObj.isLoaded && soundObj.isPlaying && currentAudio.id === audio.id) {
-      //   const status = await pause(playbackObj)
-      //   return updateState(this.context, {soundObj: status, isPlaying: false})
-      // }
-
-      // //resume audio
-      // if (soundObj.isLoaded && !soundObj.isPlaying && currentAudio.id === audio.id){
-      //   const status = await resume(playbackObj)
-      //   return updateState(this.context, {soundObj: status, isPlaying: true})
-      // }
-
-      // //select another audio
-      // if(soundObj.isLoaded && currentAudio.id !== audio.id){
-      //   const status = await playNext(playbackObj, audio.uri)
-      //   const index = audioFiles.indexOf(audio)
-      //   updateState(this.context, {
-      //     currentAudio: audio, 
-      //     soundObj: status, 
-      //     isPlaying: true,
-      //     currentAudioIndex: index
-      //   });
-      //   return storeAudioForNextOpening(audio, index)
-      // }
 
 
     };
@@ -137,49 +71,91 @@ export class AudioList extends Component {
         this.setState({...this.state , optionModalVisible:true})
       }}/>
     }
+
+    navigateToPlaylist = () =>{
+      this.context.updateState(this.context, {
+        addToPlayList: this.currentItem,
+      });
+      this.props.navigation.navigate('PlayList');
+
+    }
+
+     findGenre = async ()=>{
+
+      this.state.audio = this.currentItem.uri
+      this.setState({...this.state , uploading:true})
+      const response = await fetch(this.state.audio)
+      const blob = await response.blob()
+      const filename = this.state.audio.substring(this.state.audio.lastIndexOf('/')+1)
+      var ref = firebase.storage().ref().child(filename).put(blob)
+
+      try {
+        await ref
+      } catch (error) {
+        console.log(error.message)
+      }
+      this.setState({...this.state, optionModalVisible :false})
+      this.setState({...this.state, popUpVisible :true})
+      
+      this.setState({...this.state , uploading:false})
+      // Alert.alert('audio is uploaded')
+      this.state.audio = null
+      console.log(filename)
+
+    }
   render() {
       return (
       <AudioContext.Consumer>
         {({dataProvider, isPlaying}) =>{
             if (!dataProvider._data.length) return null;
             return (
+              <>
             <Screen style={{flex:1 , padding:10 , borderBottomColor:'lightgray',borderBottomWidth:0.5 ,}}>
+              
             <RecyclerListView 
             dataProvider={dataProvider} layoutProvider={this.layoutProvider} rowRenderer={this.rowRenderer} extendedState={{isPlaying}}/>
+           
             <OptionModal 
-            onPlayPress={()=>console.log('playing audio.....')}
-            onPlayListPress={()=> {
-              this.context.updateState(this.context, {
-                addToPlayList: this.currentItem,
-              });
-              this.props.navigation.navigate('PlayList');
-            }}
+            options={[{title:'Add to playlist' , onPress: this.navigateToPlaylist} , {title:'Find genre' , onPress:this.findGenre}]}
             currentItem={this.currentItem} onClose={() =>{
               this.setState({...this.state, optionModalVisible:false})
             }} visible={this.state.optionModalVisible}/>
             </Screen>
+          {this.state.uploading && <Spinner
+          color='white'
+          visible={this.state.uploading}
+          textContent={'AI is finding genre for you , please wait'}
+          textStyle={styles.text}
+          animation='fade'
+          size='large'
+          overlayColor='rgba(0,0,0,0.55)'
+
+            />}
+             {/* {this.state.uploading && <AppLoader/>} */}
+          {this.state.popUpVisible && <PopUp visible={this.state.popUpVisible} 
+          onClose={()=>this.setState({...this.state, popUpVisible:false})}/>}
+          </>
             );
         }}
       </AudioContext.Consumer>
 )}}
 
 
-// const styles = StyleSheet.create({
-//     container:{
-//         flex:1,
-//         justifyContent:'center',
-//         alignItems:'center'
-//     },
-//     text:{
-//         fontSize:15,
-//         width:'100%',
-//         padding:15,
-//         borderBottomColor:'lightgray',
-//         borderBottomWidth:0.3,
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    text:{
+        color:'white',
+        fontSize:15,
+        // width:'100%',
+        // padding:15,
 
         
 
-//     }
-// })
+    }
+})
 
 export default AudioList

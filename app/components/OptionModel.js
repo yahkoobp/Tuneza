@@ -21,13 +21,13 @@ const OptionModal = ({
   return (
     <>
       <StatusBar hidden />
-      <Modal animationType='slide' transparent visible={visible}>
+      <Modal animationType='fade' transparent visible={visible}>
         <View style={styles.modal}>
           <Text style={styles.title} numberOfLines={2}>
             {filename}
           </Text>
           <View style={styles.optionContainer}>
-            {/* {options.map(optn => {
+            {options.map(optn => {
               return (
                 <TouchableWithoutFeedback
                   key={optn.title}
@@ -36,13 +36,14 @@ const OptionModal = ({
                   <Text style={styles.option}>{optn.title}</Text>
                 </TouchableWithoutFeedback>
               );
-            })} */}
-            <TouchableWithoutFeedback onPress={onPlayPress}>
+            })}
+            {/* <TouchableWithoutFeedback onPress={onPlayPress}>
               <Text style={styles.option}>Play</Text>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={onPlayListPress}>
               <Text style={styles.option}>Add to Playlist</Text>
-            </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback> */}
+
           </View>
         </View>
         <TouchableWithoutFeedback onPress={onClose}>
