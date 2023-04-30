@@ -9,11 +9,13 @@ import PlayerButton from '../components/PlayerButton';
 import {AudioContext} from '../context/AudioProvider';
 import { play, pause, resume, playNext, selectAudio, changeAudio, moveAudio } from '../misc/audioController';
 import { convertTime, storeAudioForNextOpening } from '../misc/helper';
+import OptionModal from '../components/OptionModel';
 
 const {width} = Dimensions.get('window')
 
-const Player = () => {
+const Player = ({navigation}) => {
   const [currentPosition, setCurrentPosition] = useState(0)
+  const [modelVisible,setModelVisible] = useState(false)
   const context = useContext(AudioContext);
   const {playbackPosition,
     playbackDuration,} = context;
@@ -152,6 +154,23 @@ const Player = () => {
     return convertTime(context.playbackPosition / 1000)
   }
 
+  const handlePopUp = () =>{
+     setModelVisible(true)
+  }
+  const onClose=()=>{
+     setModelVisible(false)
+  }
+  const navigateToPlaylist =() =>{
+      context.updateState(context, {
+      addToPlayList: context.currentAudio,
+    });
+    navigation.navigate('PlayList');
+
+  }
+
+
+
+
   return (
   <Screen>
     <View style={styles.container}>
@@ -162,28 +181,29 @@ const Player = () => {
         <Text style={{fontWeight:"bold"}}>{context.activePlayList.title}</Text>
         </View>) }
       <Text style={styles.audioCount}>{`${context.currentAudioIndex+1} / ${context.totalAudioCount}`}</Text>
-      <SimpleLineIcons name="options-vertical" size={20} color={color.FONT_MEDIUM} />
+      <SimpleLineIcons name="options-vertical" size={20} color='white' onPress={handlePopUp}/>
       </View>
       <View style={styles.midBannerContainer}>
         <MaterialCommunityIcons 
-        name="music-circle" 
-        size={300} 
-        color={context.isPlaying? 'teal' : color.ACTIVE_BG} />
+        name="music-box" 
+        size={350} 
+        color={context.isPlaying? 'teal' : '#126617'} />
       </View>
       <View style={styles.audioPlayerContainer}>
         <Text numberOfLines={1} style={styles.audioTitle}>{context.currentAudio.filename}</Text>
       </View>
       <View style={{flexDirection:'row', justifyContent:'space-between' , paddingHorizontal:15}}>
-        <Text>{currentPosition? currentPosition: renderCurrentTime()}</Text>
-        <Text>{convertTime(context.currentAudio.duration)}</Text>
+        <Text style={{color:'white'}}>{currentPosition? currentPosition: renderCurrentTime()}</Text>
+        <Text style={{color:'white'}}>{convertTime(context.currentAudio.duration)}</Text>
       </View>
+    
       <Slider
   style={{width: width, height: 40}}
   minimumValue={0}
   maximumValue={1}
   value={calculateSeekBar()}
-  minimumTrackTintColor={color.FONT_MEDIUM}
-  maximumTrackTintColor={color.ACTIVE_BG}
+  minimumTrackTintColor='white'
+  maximumTrackTintColor='white'
   onValueChange={(value) => {
     setCurrentPosition(convertTime(value * context.currentAudio.duration));
   }}
@@ -212,6 +232,8 @@ const Player = () => {
       <PlayerButton iconType='NEXT' onPress={handleNext}/>
     </View>
     </View>
+    <OptionModal options={[{title:'Add to playlist' , onPress:navigateToPlaylist}]} 
+       visible={modelVisible} onClose={onClose} currentItem={context.currentAudio}/>
   </Screen>
   );
 };
@@ -247,7 +269,7 @@ const styles = StyleSheet.create({
     },
     audioTitle: {
       fontSize: 16,
-      color: color.FONT,
+      color: 'white',
       padding: 15,
     }
 });

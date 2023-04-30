@@ -6,15 +6,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AudioContext } from '../context/AudioProvider';
 import PlayListDetail from './PlayListDetail';
 import { AntDesign } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import PlayListAddModel from '../components/ListAddModel';
 
 let selectedPlayList = {};
 
 const PlayList = ({navigation}) => {
+  const [playListPopUp , setPlayListPopUp] = useState(false)
   const [modalVisible, setModalVisible] = useState(false);
   const [showPlayList, setShowPlayList] = useState(false);
 
   const context = useContext(AudioContext);
   const {playList, addToPlayList, updateState} = context
+
+ 
 
   const createPlayList = async playListName => {
      const result = await AsyncStorage.getItem('playlist');
@@ -63,6 +68,7 @@ useEffect(() => {
 const handleBannerPress = async (playList) => { 
   // update playlist if there is any selected audio
   if(addToPlayList){
+    setPlayListPopUp(true)
     const result = await AsyncStorage.getItem('playlist');
   // we want to check duplicate audio
 
@@ -94,31 +100,44 @@ const handleBannerPress = async (playList) => {
     })
   }
 
+  
+
   if(sameAudio){
     Alert.alert('Found same audio', `${addToPlayList.filename} is already inside the list.`)
+    setPlayListPopUp(false)
     sameAudio = false;
     return updateState(context, {addToPlayList: null});
   }
-
   updateState (context, {addToPlayList: null, playList: [...updatedList]});
+  setPlayListPopUp(false)
   return AsyncStorage.setItem('playlist', JSON.stringify([...updatedList]));
-  }
-  //if no audio selected then open the list
   
+  }
+
+  
+  //if no audio selected then open the list
+
+  
+
   selectedPlayList = playList;
   // setShowPlayList(true);
   // console.log(playList)
   navigation.navigate('PlayListDetail' , playList);
 };
-  
+ 
 
   return (
+    <>
     <ScrollView contentContainerStyle={styles.container}>
 
         {playList.length? playList.map(item => (
         <TouchableOpacity key={item.id.toString()} style={styles.playListBanner} onPress={() => handleBannerPress(item)}>
+          <MaterialCommunityIcons 
+        name="music-box-multiple" 
+        size={70} 
+        color= 'teal' />
           <View>
-          <Text>{item.title}</Text>
+          <Text style={{color:'white',fontSize:17 , fontWeight:'bold',marginLeft:15,}}>{item.title}</Text>
           <Text style={styles.audioCount}>{item.audios.length > 1 ? `${item.audios.length} Songs` : `${item.audios.length} Song`}</Text>
           </View>
           <View>
@@ -140,6 +159,9 @@ const handleBannerPress = async (playList) => {
         onSubmit={createPlayList}/>
     <PlayListDetail visible={showPlayList}  playList={selectedPlayList} onClose={() => setShowPlayList(false)}/>
     </ScrollView>
+    <PlayListAddModel visible={playListPopUp}/>
+  
+    </>
     
   )
 }
@@ -147,24 +169,28 @@ const handleBannerPress = async (playList) => {
 const styles = StyleSheet.create({
     container:{
         padding: 20,
+        height:'100%',
+        backgroundColor:'#2a1d1d',
     },
     playListBanner:{
       display:'flex',
       flexDirection:'row',
       alignItems:'center',
-      justifyContent:'space-between',
-      padding: 5,
-      backgroundColor: 'rgba(204,204,204,0.3)',
+      justifyContent:'flex-start',
+      padding: 0,
+      backgroundColor: '#2a1d1d',
       borderRadius: 5,
       marginBottom: 15,
     },
     audioCount:{
+      marginLeft:15,
+      color:'white',
       marginTop: 3,
       opacity: 0.5,
-      fontSize: 14,
+      fontSize: 13,
     },
     playListBtn:{
-      color: color.ACTIVE_BG,
+      color: '#38D506',
       letterSpacing: 1,
       fontWeight: 'bold',
       fontSize: 14,

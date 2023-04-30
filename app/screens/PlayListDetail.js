@@ -99,15 +99,17 @@ const PlayListDetail = props => {
    
         <>
         <View style={styles.container}>
-            <View style={{ width:'100%',
+            <View style={{ 
+                           backgroundColor:color.APP_BG,
+                           width:'100%',
                            flexDirection:'row',
                            justifyContent:'space-between',
                            paddingHorizontal:15,
         }}>
             <Text style={styles.title}>{playList?.title}</Text>
-            <TouchableOpacity onPress={removePlaylist}>
+            {/* <TouchableOpacity onPress={removePlaylist}>
             <Text style={[styles.title , {color:'red'}]}>Remove</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             </View>
             <FlatList 
             contentContainerStyle={styles.listContainer}
@@ -147,14 +149,17 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         padding: 20,
+        backgroundColor:color.APP_BG,
+        height:'100%',
     },
     title: {
+        marginTop:25,
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 18,
         fontFamily:'Courier New',
         paddingVertical: 5,
         fontWeight: 'bold',
-        color: color.ACTIVE_BG,
+        color: 'white',
     }
 });
 

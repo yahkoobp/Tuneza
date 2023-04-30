@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: color.APP_BG,
+    backgroundColor: '#382d2d',
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     zIndex: 1000,
@@ -69,16 +69,17 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
+    color:'white',
     fontSize: 18,
     fontWeight: 'bold',
     padding: 20,
     paddingBottom: 0,
-    color: color.FONT_MEDIUM,
+
   },
   option: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: color.FONT,
+    color:'white',
     paddingVertical: 10,
     letterSpacing: 1,
   },

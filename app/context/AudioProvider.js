@@ -19,6 +19,7 @@ export class AudioProvider extends Component {
         this.state={
             audioFiles:[],
             playList: [],
+            genreList:[],
             addToPlayList: null,
             permissionError : false,
             dataProvider: new DataProvider((r1,r2) => r1!==r2),
@@ -31,6 +32,9 @@ export class AudioProvider extends Component {
             currentAudioIndex: null,
             playbackPosition: null,
             playbackDuration: null,
+            addToGenre:null,
+            isGenreListRunning:false,
+            activeGenreList:[],
         };
         this.totalAudioCount = 0
     }
@@ -180,6 +184,7 @@ export class AudioProvider extends Component {
     const {
         audioFiles,
         playList,
+        genreList,
         addToPlayList,
         dataProvider,
         permissionError, 
@@ -191,6 +196,9 @@ export class AudioProvider extends Component {
         playbackDuration,
         isPlayListRunning,
         activePlayList,
+        addToGenre,
+        isGenreListRunning,
+        activeGenreList,
         } = this.state
     if(permissionError) return <View style={{
         flex:1,
@@ -207,6 +215,7 @@ export class AudioProvider extends Component {
     return <AudioContext.Provider  value={{
     audioFiles, 
     playList,
+    genreList,
     addToPlayList,
     dataProvider, 
     playbackObj, 
@@ -219,6 +228,9 @@ export class AudioProvider extends Component {
     playbackDuration,
     isPlayListRunning,
     activePlayList,
+    addToGenre,
+    isGenreListRunning,
+    activeGenreList,
     updateState: this.updateState,
     loadPreviousAudio: this.loadPreviousAudio,
     onPlaybackStatusUpdate: this.onPlaybackStatusUpdate,

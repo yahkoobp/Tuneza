@@ -13,21 +13,23 @@ import color from '../misc/color';
 const OptionModal = ({
   visible,
   onClose,
+  currentItem,
+  onOkPress,
 }) => {
-  
+  const {filename} = currentItem
   return (
     <>
       <StatusBar hidden />
       <Modal animationType='fade' transparent visible={visible}>
         <View style={styles.modal}>
             
-          <Text style={{marginTop:10}}> Wow..its HipHop...</Text>
-          <Text style={{marginTop:10}}> Would you like to add this song to genre list ? </Text>
+          <Text style={{marginTop:10 , color:'white'}}> Wow..{filename} is HipHop...</Text>
+          <Text style={{marginTop:10 , color:"white"}}> Would you like to add this song to genre list ? </Text>
           <View style={styles.buttonContainer}>
             <Pressable style={styles.button} onPress={onClose}>
               <Text style={styles.textStyle}>Close</Text>
             </Pressable>
-           <Pressable style={styles.button}>
+           <Pressable style={styles.button} onPress={onOkPress}>
               <Text style={styles.textStyle}>Yes</Text>
             </Pressable>
             </View>
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
     right: 30,
     left: 30,
     padding:40,
-    backgroundColor: color.APP_BG,
+    backgroundColor: color.MODAL_POPUP,
     borderRadius:20,
     zIndex: 1000,
 
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 20,
     paddingBottom: 0,
-    color: color.FONT_MEDIUM,
+    color:'white',
   },
   option: {
     fontSize: 16,

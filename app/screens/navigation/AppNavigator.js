@@ -37,26 +37,81 @@ const GenreScreen = () =>{
 }
 
 const AppNavigator = () => {
-  return  <Tab.Navigator>
+  return  <Tab.Navigator  
+  screenOptions={({ route }) => ({
+      headerShown: true,
+      tabBarStyle: {
+      activeTintColor: '#fff',
+      inactiveTintColor: 'lightgray',
+      activeBackgroundColor: 'green',
+      inactiveBackgroundColor: '#b55031',
+      height: 65,
+      paddingHorizontal: 3,
+      paddingTop: 0,
+      backgroundColor: '#2a1d1d',
+      
+      // borderTopLeftRadius:15,
+      // borderTopRightRadius:15,
+    //   position: 'absolute',
+      borderTopWidth: 0,
+  },
+})}
+  >
     <Tab.Screen name='AudioList' component={AudioList} options={{
+        title: 'Audio List',
+        headerStyle: {
+          backgroundColor: '#382d2d',
+          
+         
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
         tabBarIcon: (color, size) =>{
-            return <Ionicons name="headset" size={24} color={color} />
+            return <Ionicons name="headset" size={24} color='white' />
         }
+
+        
     }}/>
     <Tab.Screen name='Player' component={Player} options={{
+        title: 'Audio Player',
+        headerStyle: {
+          backgroundColor: '#382d2d',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
         tabBarIcon: (color, size) =>{
-            return <FontAwesome5 name="compact-disc" size={24} color="black"  />
+            return <FontAwesome5 name="compact-disc" size={24} color='white'  />
         }
     }}/>
     <Tab.Screen name='PlayList' component={PlayListScreen} options={{
+        title: 'Your Playlist',
+        headerStyle: {
+          backgroundColor: '#382d2d',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
         tabBarIcon: (color, size) =>{
-            return <SimpleLineIcons name="playlist" size={24} color="black" />
+            return <SimpleLineIcons name="playlist" size={24} color='white' />
         }
     }}/>
 
     <Tab.Screen name='Genre' component={GenreScreen} options={{
+        title: 'Genre',
+        headerStyle: {
+          backgroundColor: '#382d2d',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
         tabBarIcon: (color, size) =>{
-            return <Entypo name="folder" size={24} color="black" />
+            return <Entypo name="folder" size={24} color='white' />
         },
     }}/>
   </Tab.Navigator>

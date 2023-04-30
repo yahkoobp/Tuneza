@@ -103,6 +103,10 @@ export class AudioList extends Component {
       console.log(filename)
 
     }
+
+    addToGenre = () =>{
+      console.log(this.context.currentItem +"is adding to genre list")
+    }
   render() {
       return (
       <AudioContext.Consumer>
@@ -122,7 +126,7 @@ export class AudioList extends Component {
             }} visible={this.state.optionModalVisible}/>
             </Screen>
           {this.state.uploading && <Spinner
-          color='white'
+          color='green'
           visible={this.state.uploading}
           textContent={'AI is finding genre for you , please wait'}
           textStyle={styles.text}
@@ -133,7 +137,9 @@ export class AudioList extends Component {
             />}
              {/* {this.state.uploading && <AppLoader/>} */}
           {this.state.popUpVisible && <PopUp visible={this.state.popUpVisible} 
-          onClose={()=>this.setState({...this.state, popUpVisible:false})}/>}
+          onClose={()=>this.setState({...this.state, popUpVisible:false})} 
+          currentItem={this.currentItem} 
+          onOkPress={this.addToGenre}/>}
           </>
             );
         }}
@@ -149,7 +155,7 @@ const styles = StyleSheet.create({
     },
     text:{
         color:'white',
-        fontSize:15,
+        fontSize:16,
         // width:'100%',
         // padding:15,
 

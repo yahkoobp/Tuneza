@@ -22,7 +22,7 @@ const PlayListInputModal = ({ visible, onClose,onSubmit }) => {
         <Modal visible={visible} animationType='fade' transparent>
             <View style={styles.modalContainer}>
                 <View style={styles.inputContainer}>
-                        <Text style={{color: color.ACTIVE_BG}}>Create New Playlist</Text>
+                        <Text style={{color:'white'}}>Create New Playlist</Text>
                     <TextInput value={playListName} onChangeText={(text) => setPlayListName(text)} style={styles.input}/>
                     <AntDesign 
                     name='check' 
@@ -51,20 +51,21 @@ const styles = StyleSheet.create({
         width: width - 20,
         height: 200,
         borderRadius: 10,
-        backgroundColor: color.ACTIVE_FONT,
+        backgroundColor: '#382d2d',
         justifyContent: 'center',
         alignItems: 'center',
     },
     input: {
+        color:'white',
         width: width - 40,
         borderBottomWidth: 1,
-        borderBottomColor: color.ACTIVE_BG,
+        borderBottomColor: 'white',
         fontSize: 18,
         paddingVertical: 5,
     },
     submitIcon: {
         padding: 10,
-        backgroundColor: color.ACTIVE_BG,
+        backgroundColor: '#38D506',
         borderRadius: 50,
         marginTop: 15,
     },

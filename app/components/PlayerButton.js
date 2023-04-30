@@ -7,8 +7,8 @@ import color from '../misc/color';
 const PlayerButton = (props) => {
     const {
         iconType, 
-        size = 40, 
-        iconColor = color.FONT, 
+        size = 60, 
+        iconColor = 'white', 
         onPress, 
     } = props
     const getIconName = (type) => {
@@ -18,9 +18,9 @@ const PlayerButton = (props) => {
             case 'PAUSE':
                 return 'playcircleo';
             case 'NEXT':
-                return 'forward';
+                return 'stepforward';
             case 'PREV':
-                return 'banckward';
+                return 'stepbackward';
         }
     }
     return (

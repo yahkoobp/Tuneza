@@ -55,7 +55,7 @@ const AudioListItem =({title , duration ,onOptionPress, onAudioPress, isPlaying,
         <View style={styles.rightContainer}>
         <Entypo style={{padding:10}}
         onPress={onOptionPress}
-         name="dots-three-vertical" size={20} color={color.FONT_MEDIUM} />
+         name="dots-three-vertical" size={20} color='white' />
         </View>
       </View>
       <View style={styles.separator} />
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor:'teal',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 25,
+    borderRadius: 5,
   },
   thumbnailText: {
     fontSize: 22,
@@ -102,8 +102,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   title: {
+    fontWeight:'690',
     fontSize: 16,
-    color: color.FONT,
+    color: 'white',
   },
 
   separator: {
