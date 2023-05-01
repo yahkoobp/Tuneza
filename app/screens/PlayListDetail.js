@@ -120,7 +120,7 @@ const PlayListDetail = props => {
             <AudioListItem title={item.filename} 
             duration={item.duration}
             isPlaying = {context.isPlaying}
-            activeListItem = {item.id === context.currentAudio.id}
+            activeListItem = {item.id === context.currentAudio?.id}
              onAudioPress = {() => playAudio(item)}
              onOptionPress={()=>{
                 setSelectedItem(item)

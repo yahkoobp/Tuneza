@@ -19,7 +19,7 @@ const Genre = ({navigation}) => {
 
   const createAsyncStorage =async () =>{
     const result = await AsyncStorage.getItem('genrelist');
-    console.log(result)
+    // console.log(result)
     if(result===null){
     try{
      await AsyncStorage.setItem('genrelist', JSON.stringify(genreList))
@@ -27,7 +27,7 @@ const Genre = ({navigation}) => {
        console.log(err)
     }
   }
-  updateState(context, {genrList: JSON.parse(result)})
+  updateState(context, {genreList: JSON.parse(result)})
     }
 
     const getAsyncStorage=async()=>{
@@ -42,20 +42,16 @@ const Genre = ({navigation}) => {
   },[])
 
 
-   
-    
-
   
 
-  const handleBannerPress =()=>{
-
-    navigation.navigate('genreDetail',);
+  const handleBannerPress =(genrelist)=>{
+    navigation.navigate('genreDetail',genrelist);
     
   }
     return (
         <ScrollView contentContainerStyle={styles.container}>
-          {genres.map( item =>(
-                  <TouchableOpacity key={item.id.toString()} style={styles.ListBanner} onPress={handleBannerPress}>
+          {genreList.map( item =>(
+                  <TouchableOpacity key={item.id.toString()} style={styles.ListBanner} onPress={()=>handleBannerPress(item)}>
                   <MaterialCommunityIcons 
                    name="folder-music" 
                    size={70} 
