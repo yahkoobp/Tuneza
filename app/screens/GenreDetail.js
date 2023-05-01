@@ -13,7 +13,7 @@ const GenreDetail = props => {
     const [audios , setAudios ] = useState(genreList?.audios)
 
     const playAudio = async (audio) =>{
-        await selectAudio(audio , context , {activePlayList : playList , isPlayListRunning: true})
+        await selectAudio(audio , context , {} ,{activeGenreList : genreList , isGenreListRunning: true})
      }
     
 
@@ -29,33 +29,29 @@ const GenreDetail = props => {
                        paddingHorizontal:15,
     }}>
         <Text style={styles.title}>{genreList?.genre}</Text>
-        {/* <TouchableOpacity onPress={removePlaylist}>
-        <Text style={[styles.title , {color:'red'}]}>Remove</Text>
-        </TouchableOpacity> */}
         </View>
-        <FlatList 
-        contentContainerStyle={styles.listContainer}
-        data = {audios} 
-        keyExtractor = {item => item.id.toString()}
-        renderItem = {({item}) => (
-        <View style={{marginBottom: 10}}>
-        <AudioListItem title={item.filename} 
-        duration={item.duration}
-        isPlaying = {context.isPlaying}
-        activeListItem = {item.id === context.currentAudio?.id}
-        //  onAudioPress = {() => playAudio(item)}
-        //  onOptionPress={()=>{
-        //     setSelectedItem(item)
-        //     setModelVisible(true)
-        //  }}
-         />
-        </View> 
-        )}
-        /> 
+        {audios.length ? 
+         <FlatList 
+         contentContainerStyle={styles.listContainer}
+         data = {audios} 
+         keyExtractor = {item => item.id.toString()}
+         renderItem = {({item}) => (
+         <View style={{marginBottom: 10}}>
+         <AudioListItem title={item.filename} 
+         duration={item.duration}
+         isPlaying = {context.isPlaying}
+         activeListItem = {item.id === context.currentAudio?.id}
+         //  onAudioPress = {() => playAudio(item)}
+         //  onOptionPress={()=>{
+         //     setSelectedItem(item)
+         //     setModelVisible(true)
+         //  }}
+          />
+         </View> 
+         )}
+         /> :<Text style={{marginTop:250 , fontSize:17 , color:'white'}}> No audios</Text>
+        }
     </View>
-    {/* <OptionModal visible={modelVisible} onClose={closeModel}
-     options={[{title :'Remove from playlist' ,onPress : removeAudio}]} 
-     currentItem={selectedItem}/> */}
  </>
    
 
@@ -67,6 +63,8 @@ const GenreDetail = props => {
 const styles = StyleSheet.create({
 container: {
     alignItems: 'center',
+    backgroundColor:color.APP_BG,
+    height:'100%',
 
 },
 listContainer: {

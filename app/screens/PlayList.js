@@ -9,7 +9,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PlayListAddModel from '../components/ListAddModel';
 
-let selectedPlayList = {};
+
 
 const PlayList = ({navigation}) => {
   const [playListPopUp , setPlayListPopUp] = useState(false)
@@ -119,7 +119,7 @@ const handleBannerPress = async (playList) => {
 
   
 
-  selectedPlayList = playList;
+  // selectedPlayList = playList;
   // setShowPlayList(true);
   // console.log(playList)
   navigation.navigate('PlayListDetail' , playList);
@@ -157,7 +157,6 @@ const handleBannerPress = async (playList) => {
         visible={modalVisible} 
         onClose={() => setModalVisible(false)} 
         onSubmit={createPlayList}/>
-    <PlayListDetail visible={showPlayList}  playList={selectedPlayList} onClose={() => setShowPlayList(false)}/>
     </ScrollView>
     <PlayListAddModel visible={playListPopUp}/>
   

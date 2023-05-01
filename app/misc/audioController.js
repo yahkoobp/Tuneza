@@ -41,7 +41,7 @@ export const playNext = async (playbackObj, uri) => {
     }
 }
 
-export const selectAudio = async (audio , context ,playListInfo={}) =>{
+export const selectAudio = async (audio , context ,playListInfo={},genreListInfo={}) =>{
     const {soundObj, playbackObj, currentAudio, updateState, audioFiles , onPlaybackStatusUpdate} = context;
     //playing audio for the first time
 

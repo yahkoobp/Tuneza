@@ -110,8 +110,6 @@ export class AudioList extends Component {
       this.context.updateState(this.context, {
         addToGenre: this.currentItem,
       });
-
-      if(this.context.addToGenre){
         const result = await AsyncStorage.getItem('genrelist');
         console.log(result)
       // we want to check duplicate audio
@@ -152,11 +150,12 @@ export class AudioList extends Component {
         return this.context.updateState(this.context, {addToGenre: null});
       }
       this.context.updateState (this.context, {addToGenre: null, genreList: [...updatedList]});
+      
       console.log(this.context.genreList)
-      return AsyncStorage.setItem('genrelist', JSON.stringify([...updatedList]));
-      }
+      return await AsyncStorage.setItem('genrelist', JSON.stringify([...updatedList]));
+      
       // console.log(this.context.genreList)
-      console.log(this.currentItem + "is adding to genre list")
+      // console.log(this.currentItem + "is adding to genre list")
     }
   render() {
       return (

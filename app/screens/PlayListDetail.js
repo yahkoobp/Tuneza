@@ -18,7 +18,7 @@ const PlayListDetail = props => {
     const [audios , setAudios ] = useState(playList?.audios)
 
     const playAudio = async (audio) =>{
-       await selectAudio(audio , context , {activePlayList : playList , isPlayListRunning: true})
+       await selectAudio(audio , context ,{activePlayList : playList , isPlayListRunning: true},{})
     }
 
     const closeModel = () =>{
@@ -111,6 +111,7 @@ const PlayListDetail = props => {
             <Text style={[styles.title , {color:'red'}]}>Remove</Text>
             </TouchableOpacity> */}
             </View>
+            {audios?.length ?
             <FlatList 
             contentContainerStyle={styles.listContainer}
             data = {audios} 
@@ -129,7 +130,7 @@ const PlayListDetail = props => {
              />
             </View> 
             )}
-            /> 
+            /> :<Text style={{marginTop:250 , fontSize:17 , color:'white'}}> No audios</Text>}
         </View>
         <OptionModal visible={modelVisible} onClose={closeModel}
          options={[{title :'Remove from playlist' ,onPress : removeAudio}]} 
@@ -145,6 +146,8 @@ const PlayListDetail = props => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
+        backgroundColor:color.APP_BG,
+        height:'100%',
 
     },
     listContainer: {

@@ -62,44 +62,6 @@ const Genre = ({navigation}) => {
                   </View>
                 </TouchableOpacity>
           ))}
-            
-
-            {/* <TouchableOpacity style={styles.ListBanner}>
-              <Text style={styles.textStyle}>Classical</Text>
-              <Text style={styles.audioCount}>5 Songs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.ListBanner}>
-              <Text style={styles.textStyle}>Jazz</Text>
-              <Text style={styles.audioCount}>5 Songs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.ListBanner}>
-              <Text style={styles.textStyle}>Blues</Text>
-              <Text style={styles.audioCount}>5 Songs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.ListBanner}>
-              <Text style={styles.textStyle}>Hip Hop</Text>
-              <Text style={styles.audioCount}>5 Songs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.ListBanner}>
-              <Text style={styles.textStyle}>Disco</Text>
-              <Text style={styles.audioCount}>5 Songs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.ListBanner}>
-              <Text style={styles.textStyle}>Metal</Text>
-              <Text style={styles.audioCount}>5 Songs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.ListBanner}>
-              <Text style={styles.textStyle}>Country</Text>
-              <Text style={styles.audioCount}>5 Songs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.ListBanner}>
-              <Text style={styles.textStyle}>Raggae</Text>
-              <Text style={styles.audioCount}>5 Songs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.ListBanner}>
-              <Text style={styles.textStyle}>Pop</Text>
-              <Text style={styles.audioCount}>5 Songs</Text>
-            </TouchableOpacity> */}
 
         </ScrollView>
 
@@ -142,7 +104,7 @@ const styles = StyleSheet.create({
     textStyle:{
         marginLeft:15,
         color:'white',
-        fontSize:15,
+        fontSize:17,
         fontWeight:'bold'
     }
 })
