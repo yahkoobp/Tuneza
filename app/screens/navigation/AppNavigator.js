@@ -87,7 +87,7 @@ const AppNavigator = () => {
             return <FontAwesome5 name="compact-disc" size={24} color='white'  />
         }
     }}/>
-    <Tab.Screen name='PlayList' component={PlayListScreen} options={{
+    <Tab.Screen name='Your Playlist' component={PlayListScreen} options={{
         title: 'Your Playlist',
         headerStyle: {
           backgroundColor: '#382d2d',

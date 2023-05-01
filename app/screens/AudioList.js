@@ -12,6 +12,7 @@ import {firebase} from '../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay'
 import AppLoader from '../components/AppLoader'
 import PopUp from '../components/PopUp'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 
@@ -104,8 +105,58 @@ export class AudioList extends Component {
 
     }
 
-    addToGenre = () =>{
-      console.log(this.context.currentItem +"is adding to genre list")
+    addToGenreList = async (genre_id) =>{
+
+      this.context.updateState(this.context, {
+        addToGenre: this.currentItem,
+      });
+
+      if(this.context.addToGenre){
+        const result = await AsyncStorage.getItem('genrelist');
+        console.log(result)
+      // we want to check duplicate audio
+    
+      let oldList = [];  
+      let updatedList = [];
+      let sameAudio = false;
+    
+      if (result !== null) {
+        oldList = JSON.parse(result);
+        
+        updatedList = oldList.filter(list => {
+          if(list.id === genre_id){
+            //check duplicate present or not
+            for (let audio of list.audios){
+              if(audio.id === this.context.addToGenre.id){
+                // alert with some message
+                sameAudio = true;
+                return;
+              }
+            }
+    
+            // update the playList.
+            list.audios = [...list.audios, this.context.addToGenre];
+    
+          }
+    
+          return list;
+    
+        })
+      }
+    
+      
+    
+      if(sameAudio){
+        Alert.alert('Found same audio', `${this.context.addToGenre.filename} is already inside the list.`)
+        sameAudio = false;
+        return this.context.updateState(this.context, {addToGenre: null});
+      }
+      this.context.updateState (this.context, {addToGenre: null, genreList: [...updatedList]});
+      console.log(this.context.genreList)
+      return AsyncStorage.setItem('genrelist', JSON.stringify([...updatedList]));
+      }
+      // console.log(this.context.genreList)
+      console.log(this.currentItem + "is adding to genre list")
     }
   render() {
       return (
@@ -139,7 +190,7 @@ export class AudioList extends Component {
           {this.state.popUpVisible && <PopUp visible={this.state.popUpVisible} 
           onClose={()=>this.setState({...this.state, popUpVisible:false})} 
           currentItem={this.currentItem} 
-          onOkPress={this.addToGenre}/>}
+          onOkPress={()=>this.addToGenreList(8)}/>}
           </>
             );
         }}

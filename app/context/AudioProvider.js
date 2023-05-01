@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Audio } from 'expo-av';
 import { storeAudioForNextOpening } from '../misc/helper';
 import { playNext } from '../misc/audioController';
+import { genres } from './Data';
 
 
 export const AudioContext = createContext();
@@ -19,7 +20,7 @@ export class AudioProvider extends Component {
         this.state={
             audioFiles:[],
             playList: [],
-            genreList:[],
+            genreList:genres,
             addToPlayList: null,
             permissionError : false,
             dataProvider: new DataProvider((r1,r2) => r1!==r2),

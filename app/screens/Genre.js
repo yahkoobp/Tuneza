@@ -7,57 +7,45 @@ import { AudioContext } from '../context/AudioProvider';
 import PlayListDetail from './PlayListDetail';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { genres } from '../context/Data';
 
 const Genre = ({navigation}) => {
 
-  const genre_dict = {
-    0:"rock",1:"blues",2:"disco",3:"raggae",4:"hiphop",5:"metal",6:"country",7:"classical",8:"pop",9:"jazz"
-  }
+ 
+  const context = useContext(AudioContext);
+  const {genreList, addToGenre, updateState} = context
 
-  const genres = [
-    {
-      id:0,
-      genre:'Rock'
-    },
-    {
-      id:1,
-      genre:'Blues'
-    },
-    {
-      id:2,
-      genre:'Disco',
-    },
-    {
-      id:3,
-      genre:'Raggae'
-    },
-    {
-      id:4,
-      genre:'Hiphop'
-    },
-    {
-      id:5,
-      genre:'Metal'
-    },
-    {
-      id:6,
-      genre:'Country'
-    },
-    {
-      id:7,
-      genre:'Classical'
-    },
-    {
-      id:8,
-      genre:'Pop'
-    },
-    {
-      id:9,
-      genre:'Jazz'
+  // console.log(genreList)
+
+  const createAsyncStorage =async () =>{
+    const result = await AsyncStorage.getItem('genrelist');
+    console.log(result)
+    if(result===null){
+    try{
+     await AsyncStorage.setItem('genrelist', JSON.stringify(genreList))
+    } catch(err){
+       console.log(err)
     }
-  ]
+  }
+  updateState(context, {genrList: JSON.parse(result)})
+    }
 
-  genre = []
+    const getAsyncStorage=async()=>{
+      const result = await AsyncStorage.getItem('genrelist');
+      // console.log(result)
+     }
+
+  useEffect(()=>{
+      createAsyncStorage()
+      getAsyncStorage()
+      
+  },[])
+
+
+   
+    
+
+  
 
   const handleBannerPress =()=>{
 
@@ -84,48 +72,34 @@ const Genre = ({navigation}) => {
               <Text style={styles.textStyle}>Classical</Text>
               <Text style={styles.audioCount}>5 Songs</Text>
             </TouchableOpacity>
-
-
             <TouchableOpacity style={styles.ListBanner}>
               <Text style={styles.textStyle}>Jazz</Text>
               <Text style={styles.audioCount}>5 Songs</Text>
             </TouchableOpacity>
-
-
             <TouchableOpacity style={styles.ListBanner}>
               <Text style={styles.textStyle}>Blues</Text>
               <Text style={styles.audioCount}>5 Songs</Text>
             </TouchableOpacity>
-
-
             <TouchableOpacity style={styles.ListBanner}>
               <Text style={styles.textStyle}>Hip Hop</Text>
               <Text style={styles.audioCount}>5 Songs</Text>
             </TouchableOpacity>
-
-
             <TouchableOpacity style={styles.ListBanner}>
               <Text style={styles.textStyle}>Disco</Text>
               <Text style={styles.audioCount}>5 Songs</Text>
             </TouchableOpacity>
-
             <TouchableOpacity style={styles.ListBanner}>
               <Text style={styles.textStyle}>Metal</Text>
               <Text style={styles.audioCount}>5 Songs</Text>
             </TouchableOpacity>
-
-
             <TouchableOpacity style={styles.ListBanner}>
               <Text style={styles.textStyle}>Country</Text>
               <Text style={styles.audioCount}>5 Songs</Text>
             </TouchableOpacity>
-
             <TouchableOpacity style={styles.ListBanner}>
               <Text style={styles.textStyle}>Raggae</Text>
               <Text style={styles.audioCount}>5 Songs</Text>
             </TouchableOpacity>
-
-
             <TouchableOpacity style={styles.ListBanner}>
               <Text style={styles.textStyle}>Pop</Text>
               <Text style={styles.audioCount}>5 Songs</Text>
@@ -153,7 +127,7 @@ const styles = StyleSheet.create({
       padding: 8,
       backgroundColor: color.APP_BG,
       borderRadius: 5,
-      marginBottom: 15,
+      marginBottom:5,
     },
     audioCount:{
       marginLeft:15,
