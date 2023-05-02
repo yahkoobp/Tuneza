@@ -9,22 +9,25 @@ import {
   Pressable
 } from 'react-native';
 import color from '../misc/color';
+import { genres } from '../context/Data';
 
 const OptionModal = ({
   visible,
   onClose,
   currentItem,
   onOkPress,
+  genre_id,
 }) => {
   const {filename} = currentItem
+  const genre_obj = genres[genre_id]
   return (
     <>
       <StatusBar hidden />
       <Modal animationType='fade' transparent visible={visible}>
         <View style={styles.modal}>
             
-          <Text style={{marginTop:10 , color:'white'}}> Wow..{filename} is HipHop...</Text>
-          <Text style={{marginTop:10 , color:"white"}}> Would you like to add this song to genre list ? </Text>
+          <Text style={{marginTop:10 , color:'white' ,fontWeight:'bold',fontSize:17}}>{genre_obj.genre}</Text>
+          <Text style={{marginTop:10 , color:"white"}}> Would you like to add this song to {genre_obj.genre} list ? </Text>
           <View style={styles.buttonContainer}>
             <Pressable style={styles.button} onPress={onClose}>
               <Text style={styles.textStyle}>Close</Text>

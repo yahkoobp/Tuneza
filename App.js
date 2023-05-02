@@ -47,14 +47,7 @@ export default function App() {
       
   // },[])
 
-  // const fetchApi = async () =>{
-  //      try {
-  //       const res = await axios.get('http://192.168.43.175:8000');
-  //       console.log(res.data)
-  //      } catch (error) {
-  //       console.log(error)
-  //      } 
-  // }
+  
 
   // useEffect(()=>{
   //   fetchApi()

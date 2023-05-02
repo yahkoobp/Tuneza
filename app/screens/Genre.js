@@ -58,7 +58,7 @@ const Genre = ({navigation}) => {
                    color= 'teal' />
                    <View>
                   <Text style={styles.textStyle}>{item.genre}</Text>
-                  <Text style={styles.audioCount}>5 Songs</Text>
+                  <Text style={styles.audioCount}>{item.audios.length}</Text>
                   </View>
                 </TouchableOpacity>
           ))}

@@ -36,6 +36,7 @@ export class AudioProvider extends Component {
             addToGenre:null,
             isGenreListRunning:false,
             activeGenreList:[],
+
         };
         this.totalAudioCount = 0
     }
@@ -174,9 +175,14 @@ export class AudioProvider extends Component {
         this.getPermission();
         if(this.state.playbackObj === null){
             this.setState({...this.state, playbackObj: new Audio.Sound()} );
+            
         }
-    }
+         Audio.setAudioModeAsync({
+          staysActiveInBackground:true
+         })
 
+    }
+   
     updateState = (prevState, newState = {}) => {
         this.setState({...prevState,...newState})
     }

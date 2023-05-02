@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     listContainer: {
         padding: 20,
         backgroundColor:color.APP_BG,
-        height:'100%',
+        // height:'100%',
     },
     title: {
         marginTop:25,

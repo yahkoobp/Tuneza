@@ -178,7 +178,7 @@ const Player = ({navigation}) => {
        { context.isPlayListRunning && (
        <View style={{flexDirection:'row',justifyContent:'space-between'}} >
 
-        <Text style={{fontWeight:"bold"}}>{context.activePlayList.title}</Text>
+        <Text style={{fontWeight:"bold",color:'white'}}>{context.activePlayList.title}</Text>
         </View>) }
       <Text style={styles.audioCount}>{`${context.currentAudioIndex+1} / ${context.totalAudioCount}`}</Text>
       <SimpleLineIcons name="options-vertical" size={20} color='white' onPress={handlePopUp}/>

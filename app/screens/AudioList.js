@@ -13,6 +13,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import AppLoader from '../components/AppLoader'
 import PopUp from '../components/PopUp'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import axios from 'axios'
 
 
 
@@ -26,6 +27,7 @@ export class AudioList extends Component {
     this.state = {
       optionModalVisible: false,
       popUpVisible:false,
+      genre_id:null,
       audio :null ,
       uploading :false,
     };
@@ -47,6 +49,18 @@ export class AudioList extends Component {
       }
      
     });
+
+     fetchApi = async (audio) =>{
+      try {
+       const res = await axios.post(`https://9857-14-139-184-226.ngrok-free.app/${audio}`);
+      //  console.log(res.data.genre)
+      let index = res.data.genre
+      this.setState({...this.state , genre_id:index})
+      console.log(this.state.genre_id)
+      } catch (error) {
+       console.log(error)
+      } 
+ }
 
     handleAudioPress = async audio => {
 
@@ -96,13 +110,12 @@ export class AudioList extends Component {
         console.log(error.message)
       }
       this.setState({...this.state, optionModalVisible :false})
-      this.setState({...this.state, popUpVisible :true})
-      
-      this.setState({...this.state , uploading:false})
       // Alert.alert('audio is uploaded')
       this.state.audio = null
       console.log(filename)
-
+      await this.fetchApi(filename)
+      this.setState({...this.state, popUpVisible :true})
+      this.setState({...this.state , uploading:false})
     }
 
     addToGenreList = async (genre_id) =>{
@@ -152,8 +165,9 @@ export class AudioList extends Component {
       this.context.updateState (this.context, {addToGenre: null, genreList: [...updatedList]});
       
       console.log(this.context.genreList)
+      this.setState({...this.state, popUpVisible :false})
       return await AsyncStorage.setItem('genrelist', JSON.stringify([...updatedList]));
-      
+     
       // console.log(this.context.genreList)
       // console.log(this.currentItem + "is adding to genre list")
     }
@@ -189,7 +203,8 @@ export class AudioList extends Component {
           {this.state.popUpVisible && <PopUp visible={this.state.popUpVisible} 
           onClose={()=>this.setState({...this.state, popUpVisible:false})} 
           currentItem={this.currentItem} 
-          onOkPress={()=>this.addToGenreList(8)}/>}
+          onOkPress={()=>this.addToGenreList(this.state.genre_id)}
+          genre_id={this.state.genre_id}/>}
           </>
             );
         }}

@@ -19,7 +19,7 @@ const Stack = createStackNavigator()
 const PlayListScreen = () =>{
      return (
      <Stack.Navigator screenOptions={{headerShown:false}}>
-        <Stack.Screen name='PlayList' component={PlayList}/>
+        <Stack.Screen name='playlist' component={PlayList}/>
         <Stack.Screen name='PlayListDetail' component={PlayListDetail} />
      </Stack.Navigator>
      
@@ -87,7 +87,7 @@ const AppNavigator = () => {
             return <FontAwesome5 name="compact-disc" size={24} color='white'  />
         }
     }}/>
-    <Tab.Screen name='playlist' component={PlayListScreen} options={{
+    <Tab.Screen name='PlayList' component={PlayListScreen} options={{
         title: 'Your Playlist',
         headerStyle: {
           backgroundColor: '#382d2d',
