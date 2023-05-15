@@ -52,7 +52,7 @@ export class AudioList extends Component {
 
      fetchApi = async (audio) =>{
       try {
-       const res = await axios.post(`https://9857-14-139-184-226.ngrok-free.app/${audio}`);
+       const res = await axios.post(`https://225a-14-139-184-226.ngrok-free.app/${audio}`);
       //  console.log(res.data.genre)
       let index = res.data.genre
       this.setState({...this.state , genre_id:index})
@@ -64,9 +64,8 @@ export class AudioList extends Component {
 
     handleAudioPress = async audio => {
 
-
+      
       await selectAudio(audio , this.context)
-
 
     };
 
@@ -84,7 +83,9 @@ export class AudioList extends Component {
       onOptionPress={()=>{
         this.currentItem = item;
         this.setState({...this.state , optionModalVisible:true})
-      }}/>
+      }}
+      active={this.state.active}
+      />
     }
 
     navigateToPlaylist = () =>{
@@ -171,6 +172,18 @@ export class AudioList extends Component {
       // console.log(this.context.genreList)
       // console.log(this.currentItem + "is adding to genre list")
     }
+
+    //  AudioTrim = () => {
+    //   cropAudio({
+    //     audioPath: 'https://samplelib.com/lib/preview/mp3/sample-15s.mp3',
+    //     startTime: "00:1:00'",
+    //     endingTime: '00:05:10',
+    //   })
+    //     .then((res) => {
+    //       setResult5(res);
+    //     })
+    //     .catch((err) => console.log(err));
+    // };
   render() {
       return (
       <AudioContext.Consumer>

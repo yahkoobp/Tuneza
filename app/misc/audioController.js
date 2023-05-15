@@ -55,8 +55,11 @@ export const selectAudio = async (audio , context ,playListInfo={},genreListInfo
               isPlaying: true,
               currentAudioIndex: index,
               isPlayListRunning:false,
+              isGenreListRunning:false,
               activePlayList: [],
-              ...playListInfo
+              activeGenreList:[],
+              ...playListInfo,
+              ...genreListInfo,
             });
             playbackObj.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate)
             return storeAudioForNextOpening(audio, index)
@@ -84,8 +87,11 @@ export const selectAudio = async (audio , context ,playListInfo={},genreListInfo
               isPlaying: true,
               currentAudioIndex: index,
               isPlayListRunning:false,
+              isGenreListRunning:false,
               activePlayList: [],
+              activeGenreList:[],
               ...playListInfo,
+              ...genreListInfo
               
             });
             return storeAudioForNextOpening(audio, index)
@@ -129,12 +135,49 @@ const selectAudioFromPlayList = async (context , select) =>{
 
 }
 
+
+const selectAudioFromGenreList = async (context , select) =>{
+  const {activeGenreList , currentAudio , audioFiles , playbackObj , updateState} = context
+  let audio;
+  let defaultIndex;
+  let nextIndex;
+
+  const indexOnPlayList = activeGenreList.audios.findIndex(({id})=> id === currentAudio.id)
+
+  if(select === 'next'){
+    nextIndex = indexOnPlayList +1 
+    defaultIndex =0
+  }
+
+  if(select === 'previous'){
+    nextIndex = indexOnPlayList - 1 
+    defaultIndex = activeGenreList.audios.length -1
+  }
+
+  audio = activeGenreList.audios[nextIndex];
+
+  if(!audio)  audio = activeGenreList.audios[defaultIndex];
+  const indexOnAllList = audioFiles.findIndex(({id}) => id === audio.id)
+
+  const status = await playNext(playbackObj , audio.uri)
+  return updateState(context, {
+    soundObj : status ,
+    isPlaying : true,
+    currentAudio : audio,
+    currentAudioIndex : indexOnAllList
+  })
+
+}
+
+
+
 export const changeAudio = async (context , select) =>{
 const {playbackObj , currentAudioIndex , totalAudioCount , audioFiles , updateState , onPlaybackStatusUpdate,
-  isPlayListRunning,
+  isPlayListRunning,isGenreListRunning
 } = context
 
    if(isPlayListRunning) return selectAudioFromPlayList(context , select)
+   if(isGenreListRunning) return selectAudioFromGenreList(context , select)
     try {
         const {isLoaded} = await playbackObj.getStatusAsync();
     const isLastAudio = currentAudioIndex + 1 === totalAudioCount;

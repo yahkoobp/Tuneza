@@ -8,6 +8,9 @@ import { AudioContext } from '../context/AudioProvider';
 const GenreDetail = props => {
 
     const context = useContext(AudioContext);
+    const {activeGenreList , isGenreListRunning} = context
+    // console.log(isGenreListRunning)
+    // console.log(activeGenreList)
     // const playList = props
     const genreList = props?.route?.params
     const [audios , setAudios ] = useState(genreList?.audios)
@@ -41,7 +44,7 @@ const GenreDetail = props => {
          duration={item.duration}
          isPlaying = {context.isPlaying}
          activeListItem = {item.id === context.currentAudio?.id}
-         //  onAudioPress = {() => playAudio(item)}
+          onAudioPress = {() => playAudio(item)}
          //  onOptionPress={()=>{
          //     setSelectedItem(item)
          //     setModelVisible(true)

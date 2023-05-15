@@ -47,7 +47,9 @@ const AudioListItem =({title , duration ,onOptionPress, onAudioPress, isPlaying,
                   </Text>
             </View>
             <View style={styles.titleContainer}>
-                 <Text numberOfLines={1} style={styles.title}>{title}</Text>
+                 <Text numberOfLines={1} style={activeListItem ?
+                 {color:'#38D506',fontWeight:'700', fontSize:16}:
+                 {color:'white' , fontWeight:'700',fontSize:16}}>{title}</Text>
                  <Text numberOfLines={1} style={styles.timeText}>{convertTime(duration)}</Text>
             </View>
         </View>
@@ -101,11 +103,11 @@ const styles = StyleSheet.create({
     width: width - 120,
     paddingLeft: 10,
   },
-  title: {
-    fontWeight:'690',
-    fontSize: 16,
-    color: 'white',
-  },
+  // title: {
+  //   fontWeight:'690',
+  //   fontSize: 16,
+  //   color: 'white',
+  // },
 
   separator: {
     width: width - 80,
